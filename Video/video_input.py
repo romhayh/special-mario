@@ -11,10 +11,10 @@ while(True):
     # by default the frame will be encoded in ints
     frame = frame.astype(np.float32) / 255
     
-    # Our operations on the frame come here
+    # Our operations on the frame come herecb
     # take the image and turn it into grayscale,
     # so it will be easier to process
-    
+    a = 10/0
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     img_view = cv2.flip(gray, 1)
     cv2.imshow('frame gray',img_view)
@@ -29,6 +29,7 @@ while(True):
             [0,-1,0]
         ]
     )
+    
     #! mutex
     img_view = cv2.filter2D(img_view, -1, kernel)
     #! mutex
