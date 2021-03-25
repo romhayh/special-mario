@@ -5,7 +5,7 @@
 - blur it:
   - regular blur
   - median blur
-  - gradiant blur :heavy_check_mark:
+  - gradient blur :heavy_check_mark:
 - apply a specific kernel
 - apply a threshold :heavy_check_mark:
 - erosion :heavy_check_mark:
