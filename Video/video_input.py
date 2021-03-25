@@ -14,10 +14,9 @@ while(True):
     # Our operations on the frame come herecb
     # take the image and turn it into grayscale,
     # so it will be easier to process
-    a = 10/0
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    img_view = cv2.flip(gray, 1)
-    cv2.imshow('frame gray',img_view)
+    img = cv2.flip(gray, 1)
+    cv2.imshow('frame gray',img)
 
     
     #TODO blur the image before thresholding
@@ -28,36 +27,45 @@ while(True):
             [-1,5,-1],
             [0,-1,0]
         ]
-    )
+    )   
+    #! mutex
     
+    #img = cv2.filter2D(img, -1, kernel)
+    #img = cv2.blur(img,ksize=(20,20))
     #! mutex
-    img_view = cv2.filter2D(img_view, -1, kernel)
-    #! mutex
-    cv2.imshow('frame kernel', img_view)
+    #cv2.imshow('frame kernel', img)
     
     
     # gamma correction:
     #! mutex
-    g = 0.1
-    img_view = np.power(img_view, g)
-    cv2.imshow('frame gamma', img_view)
+    g = 1.1
+    img = np.power(img, g)
+    cv2.imshow('frame gamma', img)
     #! mutex
     
     
-    
+    # erosion:
+    #! mutex
+    ekernel = np.ones(shape=(5,5), dtype=np.uint8)
+    img = cv2.erode(img, ekernel, iterations=2)
+    img = cv2.morphologyEx(img, cv2.MORPH_GRADIENT,ekernel)
+    cv2.imshow('frame erode', img)
+    #! mutex
 
     # the threshold takes image that its values are normalized betwin [0, 255]
-    img_view *= 255
-    img_view = img_view.astype(np.float32)
+    img *= 255
+    img = img.astype(np.float32)
     #TODO find a better way to make the shadow of my self to not appear at the img after thresholding
     #TODO maybe by blending multiple thresholded images
-    #! mutex
-    _, img_view = cv2.threshold(img_view, 150, 255, cv2.THRESH_BINARY)
+    #? maybe i dont need to thresh hold
+    #! mutex    
+    _, img = cv2.threshold(img, 20, 255, cv2.THRESH_BINARY)
+    img = cv2.morphologyEx(img, cv2.MORPH_CLOSE,ekernel)
     #! mutex
 
     
     # Display the resulting frame
-    cv2.imshow('frame',img_view)
+    cv2.imshow('frame',img)
     wk = cv2.waitKey(1)
     if wk & 0xFF == ord('q') or wk & 0xFF == ord('Q') or wk & 0xFF == 27:
         break
