@@ -10,3 +10,4 @@
 - apply a threshold :heavy_check_mark:
 - erosion :heavy_check_mark:
 - closing : cleans after threshold :heavy_check_mark:
+- apply histogram equalization :V:
